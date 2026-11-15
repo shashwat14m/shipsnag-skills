@@ -1,5 +1,7 @@
 # ShipSnag Skills: Prove It Works (free)
 
+[![Skills Playground](https://skillsplayground.com/badges/installs/shashwat14m-shipsnag-skills-prove-it-works.svg)](https://skillsplayground.com/skills/shashwat14m-shipsnag-skills-prove-it-works/)
+
 **Your AI coding agent says "done". This makes it prove it.**
 
 Prove It Works is a free agent skill from [ShipSnag](https://shipsnag.com). Before your agent says a task is done, it runs your project's real tests, build, typecheck and lint, shows the real output, and checks the change for the quiet ways "done" is not done: skipped or weakened tests, test commands that cannot fail, swallowed errors, hardcoded results, files changed outside the task, broken project rules, debug leftovers, secrets, and dependency or migration mistakes.
