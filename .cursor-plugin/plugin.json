@@ -1,0 +1,10 @@
+{
+  "name": "prove-it-works",
+  "displayName": "Prove It Works",
+  "description": "Before your AI agent says a coding task is done, run the real tests, build, typecheck and lint, show the real output, and catch skipped tests, swallowed errors, hardcoded results and other quiet ways done is not done.",
+  "version": "1.0.0",
+  "author": { "name": "ShipSnag", "email": "support@shipsnag.com", "url": "https://shipsnag.com" },
+  "homepage": "https://shipsnag.com",
+  "repository": "https://github.com/shashwat14m/shipsnag-skills",
+  "keywords": ["testing", "verification", "code-review", "skills"]
+}
