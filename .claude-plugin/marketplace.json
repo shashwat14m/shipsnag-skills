@@ -1,0 +1,14 @@
+{
+  "name": "shipsnag",
+  "owner": { "name": "ShipSnag", "email": "support@shipsnag.com" },
+  "metadata": { "description": "Free and paid skills from ShipSnag that catch what AI-built code breaks, leaks or costs." },
+  "plugins": [
+    {
+      "name": "prove-it-works",
+      "source": "./",
+      "description": "Make your AI agent prove a coding task works: real tests, build, typecheck and lint output, plus checks for skipped tests, swallowed errors and hardcoded results.",
+      "version": "1.0.0",
+      "homepage": "https://shipsnag.com"
+    }
+  ]
+}
