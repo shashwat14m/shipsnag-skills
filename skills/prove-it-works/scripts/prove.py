@@ -34,7 +34,7 @@ import time
 sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from common import (JS_LOCKS, UNSAFE_NAME_RE, auto_command_unsafe, base_of, command_is_safe, ext_of,  # noqa: E402
+from common import (JS_LOCKS, needs_shell, split_cmd, UNSAFE_NAME_RE, auto_command_unsafe, base_of, command_is_safe, ext_of,  # noqa: E402
                     finding, install_signal_handlers, is_dirty, load_change, load_json_text,
                     load_toml, no_em_dash, posix, python_exe, read_text, redact_text, repo_root, resolve_exe,
                     run_cmd, run_git, set_deadline, tail, time_left, write_ledger, dec)
@@ -671,8 +671,8 @@ def conventional_scripts(d):
 
 
 def _cmd_check(kind, cmdline, src, d):
-    if re.search(r"&&|\|\||[;|<>]", cmdline):
-        c = _check(kind, cmdline.split()[0], cmdline, src, d, shell=True)
+    if needs_shell(cmdline):
+        c = _check(kind, cmdline.split()[0], cmdline, src, d, shell=needs_shell(cmdline))
     else:
         toks = shlex.split(cmdline)
         if toks[0] in ("python", "python3") and not resolve_exe(toks[0], d):
@@ -858,7 +858,9 @@ def add_required(checks, rules, repo):
         if dup:
             dup["required_by"].append(r["source"])
             continue
-        c = _check("rule", cmd.split()[0], cmd, "required by %s" % r["source"], repo, shell=True)
+        argv, sh = split_cmd(cmd, repo)
+        c = _check("rule", cmd.split()[0], argv, "required by %s" % r["source"], repo, shell=sh)
+        c["display"] = cmd
         c["required_by"].append(r["source"])
         c["where"] = "."
         if not r.get("safe", command_is_safe(cmd)):

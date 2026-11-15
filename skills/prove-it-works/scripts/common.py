@@ -451,6 +451,31 @@ def install_signal_handlers():
     atexit.register(kill_running)
 
 
+SHELL_SYNTAX_RE = re.compile(r"&&|\|\||[;|<>`$*?~(){}]|^\s*\w+=")
+
+
+def needs_shell(cmdline):
+    """True when a command line uses shell syntax (chaining, pipes, redirects, $VARS, globs, VAR=x prefixes)."""
+    return bool(SHELL_SYNTAX_RE.search(cmdline))
+
+
+def split_cmd(cmdline, cwd=None):
+    """Exec form (argv list, no shell) for a simple command line; the raw string only when it needs a shell."""
+    if needs_shell(cmdline):
+        return cmdline, True
+    try:
+        argv = shlex.split(cmdline)
+    except ValueError:
+        return cmdline, True
+    if not argv:
+        return cmdline, True
+    if cwd is not None:
+        exe = resolve_exe(argv[0], cwd)
+        if exe:
+            argv[0] = exe
+    return argv, False
+
+
 def run_cmd(cmd, cwd, timeout, shell=False, extra_env=None):
     """Run one project command with a timeout, in cwd, offline env.
 

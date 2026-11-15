@@ -25,7 +25,7 @@ import sys
 sys.dont_write_bytecode = True
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from common import (CODE_EXT, JS_EXT, JS_LOCKS, PY_EXT, TS_EXT, base_of, command_is_safe,  # noqa: E402
+from common import (CODE_EXT, split_cmd, JS_EXT, JS_LOCKS, PY_EXT, TS_EXT, base_of, command_is_safe,  # noqa: E402
                     ext_of, finding, glob_match, is_comment_line, is_doc, is_test_path, load_change,
                     no_em_dash, posix, read_text, run_cmd, tail, today, PATH_TOKEN_RE)
 
@@ -673,7 +673,8 @@ def cmd_add(a):
         else:
             dry.append("Dry run: passes now (%s; %d changed files checked)." % (change.how or change.reason, len(change.files)))
     else:
-        res = run_cmd(pat, repo, a.timeout, shell=True)
+        argv, sh = split_cmd(pat, repo)
+        res = run_cmd(argv, repo, a.timeout, shell=sh)
         st = "passes now" if res["exit"] == 0 and not res["timed_out"] else (
             "timed out after %ds" % a.timeout if res["timed_out"] else "FAILS now (exit %s)" % res["exit"])
         dry.append("Dry run: `%s` %s in %.1fs." % (pat, st, res["seconds"]))
